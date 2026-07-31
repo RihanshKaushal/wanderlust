@@ -117,17 +117,20 @@
         <hr>
 
         <p><b>All Reviews</b></p>
+        <% if (listing.reviews.length === 0) { %>
+          <p class="text-muted">No reviews yet.</p>
+        <% } %>
         <div class="row row-cols-1 row-cols-md-2 g-3">
           <% for(review of listing.reviews) { %>
             <div class="col">
-              <div class="card">
+              <div class="card mb-3">
               <div class="card-body pb-0"> 
                 <h5 class="card-title">@<%= review.author ? review.author.username : "Anonymous" %></h5>
                 <p class="starability-result card-text"
                  data-rating="<%= review.rating %>"></p>
                 <p class="card-text"><%= review.comment %></p> 
               </div>
-              <% if(currentUser && review.author.equals(currentUser._id)) { %>
+              <% if(currentUser && review.author && review.author._id && review.author._id.equals(currentUser._id)) { %>
                 <div class="card-body pt-0 d-flex justify-content-between align-items-center">
                   <form method="POST" action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE">
                     <button class="btn btn-sm btn-dark">Delete</button> 
