@@ -1,0 +1,76 @@
+<% layout("layouts/boilerplate") %>
+<div class="row mt-3">
+   <div class="col-8 offset-2">
+
+<h3>Edit Listing</h3>
+<% if (typeof errorMessage !== 'undefined') { %>
+   <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>Error!</strong> <%= errorMessage %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+   </div>
+<% } %>
+<form method="POST" 
+action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation"
+enctype="multipart/form-data">
+   <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input type="text" class="form-control" id="title" name="listing[title]" placeholder="Add catchy Title" value="<%= listing.title %>" required />
+      <div class="invalid-feedback">
+         Please fill out this field.
+      </div>
+   </div>
+   <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea class="form-control" id="description" name="listing[description]" placeholder="Description" required><%= listing.description %></textarea>
+      <div class="invalid-feedback">
+         Please enter a short description.
+      </div>
+   </div>
+   <div class="mb-3">
+      Original Listing Image <br>
+      <img src="<%= originalImageUrl %>" height="100" class="mb-2">
+      <label for="image" class="form-label">Upload New Image</label>
+      <input type="file" class="form-control" id="image" name="listing[image]" />
+   </div>
+   <div class="row">
+      <div class="mb-3 col-md-4">
+         <label for="price" class="form-label">Price</label>
+         <input type="number" class="form-control" id="price" name="listing[price]" placeholder="1200" value="<%= listing.price %>" required />
+         <div class="invalid-feedback">
+            Please fill out this field.
+         </div>
+      </div>
+      <div class="mb-3 col-md-8">
+         <label for="country" class="form-label">Country</label>
+         <input type="text" class="form-control" id="country" name="listing[country]" placeholder="INDIA" value="<%= listing.country %>" required />
+         <div class="invalid-feedback">
+            Please fill out this field.
+         </div>
+      </div>
+   </div>
+   <div class="mb-3">
+      <label for="location" class="form-label">Location</label>
+      <input type="text" class="form-control" id="location" name="listing[location]" placeholder="lucknow, uttar pradesh" value="<%= listing.location %>" required />
+      <div class="invalid-feedback">
+         Please fill out this field.
+      </div>
+   </div>
+   <div class="mb-3">
+      <label for="category" class="form-label">Category</label>
+      <select name="listing[category]" id="category" class="form-select" required>
+        <% for(let category of allCategories) { %>
+          <option value="<%= category %>" <%= listing.category === category ? 'selected' : '' %>>
+            <%= category %>
+          </option>
+        <% } %>
+      </select>
+    </div>
+
+   <div class="row mt-3 justify-content-end">
+      <div class="col-auto">
+         <button class="btn btn-dark edit-btn">edit</button>
+      </div>
+   </div>
+   </div>
+</div>
+</form>
