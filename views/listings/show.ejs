@@ -1,6 +1,6 @@
 <% layout("/layouts/boilerplate.ejs") %>
-<div class="row mt-4">
-  <div class="col-8 offset-2">
+<div class="row mt-4 justify-content-center">
+  <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
     <div class="row">
       <div class="col-12">
         <h3><%= listing.title %></h3>
@@ -113,6 +113,12 @@
             </div>
             <button class="btn btn-outline-dark">Submit</button>
           </form>
+        <% } else { %>
+          <div class="alert alert-light border rounded p-3 mb-3">
+            <h5 class="mb-1">Want to leave a review?</h5>
+            <p class="text-muted mb-2">Log in to submit your rating and comments for this listing.</p>
+            <a href="/login" class="btn btn-danger btn-sm">Log In to Review</a>
+          </div>
         <% } %>
         <hr>
 

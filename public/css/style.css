@@ -311,3 +311,34 @@
     border-radius: 1rem;
     overflow: hidden;
 }
+
+/* Responsive adjustments for mobile devices */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem !important;
+    }
+    .show-img {
+        height: 250px !important;
+        object-fit: cover !important;
+    }
+    .listings-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+        gap: 1.25rem !important;
+    }
+    #map {
+        height: 280px !important;
+    }
+    .navbar {
+        height: auto !important;
+        padding: 0.5rem 1rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .listings-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .show-img {
+        height: 220px !important;
+    }
+}
