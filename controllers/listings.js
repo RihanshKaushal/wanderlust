@@ -24,10 +24,11 @@ module.exports.index = async (req, res) => {
   if (allListings.length === 0) {
     if (search) {
       req.flash("error", `No destinations found matching your search: "${search}"`);
+      return res.redirect("/listings");
     } else if (category) {
       req.flash("error", `No listings found for the category: "${category}"`);
+      return res.redirect("/listings");
     }
-    return res.redirect("/listings");
   }
 
   res.render("listings/index.ejs", { allListings, category: category || '' });

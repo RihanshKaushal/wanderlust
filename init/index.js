@@ -30,20 +30,27 @@ async function initDB() {
     for (let listing of initData.data) {
       listing.owner = user._id;
       
-      const locationQuery = encodeURIComponent(listing.location);
-      const geocodingUrl = `https://api.maptiler.com/geocoding/${locationQuery}.json?key=${MAPTILER_API_KEY}`;
-      
-      const response = await fetch(geocodingUrl);
-      const geoData = await response.json();
-      
-      if (geoData.features && geoData.features.length > 0) {
-        const { geometry } = geoData.features[0];
-        if (geometry && geometry.coordinates && geometry.coordinates.length === 2) {
-          listing.geometry = geometry;
+      // Use existing geometry from data.js if available
+      if (!listing.geometry || !listing.geometry.coordinates) {
+        if (!MAPTILER_API_KEY) {
+          console.warn(`Skipping geocoding for "${listing.location}" - no MAPTILER_API_KEY set`);
+          listing.geometry = { type: "Point", coordinates: [0, 0] };
+          continue;
         }
-      } else {
-        // If geocoding fails, throw an error to stop the process
-        throw new Error(`Could not geocode location: "${listing.location}"`);
+        const locationQuery = encodeURIComponent(listing.location);
+        const geocodingUrl = `https://api.maptiler.com/geocoding/${locationQuery}.json?key=${MAPTILER_API_KEY}`;
+        
+        const response = await fetch(geocodingUrl);
+        const geoData = await response.json();
+        
+        if (geoData.features && geoData.features.length > 0) {
+          const { geometry } = geoData.features[0];
+          if (geometry && geometry.coordinates && geometry.coordinates.length === 2) {
+            listing.geometry = geometry;
+          }
+        } else {
+          throw new Error(`Could not geocode location: "${listing.location}"`);
+        }
       }
     }
     
